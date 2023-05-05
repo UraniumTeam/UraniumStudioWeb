@@ -31,6 +31,44 @@ public class ProjectsController : ControllerBase
         return Ok(entity.Id);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Update(ProjectMetadata metadata)
+    {
+        logger.LogInformation("Request received to update project {}", metadata.Id);
+
+        var entry = await dataContext.Projects
+            .FirstOrDefaultAsync(x => x.Id == metadata.Id);
+
+        if (entry is null)
+        {
+            return NotFound(new { Message = $"Project with id \"{metadata.Id}\" was not found" });
+        }
+
+        entry.Name = metadata.Name;
+        await dataContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(ProjectMetadata metadata)
+    {
+        logger.LogInformation("Request received to delete project {}", metadata.Id);
+
+        var entry = await dataContext.Projects
+            .FirstOrDefaultAsync(x => x.Id == metadata.Id);
+
+        if (entry is null)
+        {
+            return NotFound(new { Message = $"Project with id \"{metadata.Id}\" was not found" });
+        }
+
+        dataContext.Remove(entry);
+        await dataContext.SaveChangesAsync();
+
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
