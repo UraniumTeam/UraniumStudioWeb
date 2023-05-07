@@ -25,16 +25,54 @@ const App = () => {
     const handleCreateProject = () => {
         const projectName = prompt('Введите имя нового проекта:');
         if (projectName && projectName !== " ") {
-            APIClient.post<Project>('/api/Projects/Create',
-                {
-                    id: counter,
-                    name: projectName
-                }).then(() => {
-                getProjects()
-            })
-            counter += 1;
+            try {
+                APIClient.post<Project>('/api/Projects/Create',
+                    {
+                        id: counter,
+                        name: projectName
+                    }).then(() => {
+                    getProjects()
+                })
+                counter += 1;
+                console.log(`Project with Name ${projectName} has been created.`);
+            } catch
+                (error) {
+                console.error(error);
+            }
         }
-    };
+    }
+
+    const handleDeleteProject = (project: Project) => {
+        try {
+            APIClient.delete<Project>('/api/Projects/Delete', {
+                data: {
+                    id: project.id,
+                    name: project.name
+                }
+            })
+                .then(() => getProjects());
+            console.log(`Project with ID ${project.id} has been deleted.`);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    const handleUpdateProject = (project: Project) => {
+        const newProjectName = prompt('Введите новое имя проекта');
+
+        if (newProjectName && newProjectName !== " ") {
+            try {
+                APIClient.put<Project>('/api/Projects/Update',
+                    {
+                        id: project.id,
+                        name: newProjectName
+                    })
+                    .then(() => getProjects())
+                console.log(`Project with ID ${project.id} has been updated.`);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 
     return (
         <div id="wrapper" className="App">
@@ -53,12 +91,16 @@ const App = () => {
 
                 <ul className={"project-side"}>
                     {projects.map((project) => (
-                        <Link to={`/project/${project.name}`}>
-                            <li className="project" key={project.name}>
+
+                        <li className="project" key={project.name}>
+                            <Link to={`/project/${project.name}`} className={"link"}>
                                 {project.name}
-                            </li>
-                        </Link>
-                    ))};
+                            </Link>
+                            <button className={"update-button"} onClick={() => handleUpdateProject(project)}/>
+                            <button className={"delete-button"} onClick={() => handleDeleteProject(project)}/>
+                        </li>
+
+                    ))}
                 </ul>
 
             </main>

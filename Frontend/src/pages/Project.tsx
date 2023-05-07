@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useParams} from 'react-router-dom';
 
 import '../styles/Project.css'
-import stats from "../components/Stats";
+import stats from "../components/Stats"
 
 const Project = () => {
     const {id} = useParams();

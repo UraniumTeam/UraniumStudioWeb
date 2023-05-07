@@ -10,6 +10,10 @@
     border-radius: 5px;
 }
 
+header {
+    width: max-content;
+}
+
 .back-button {
     position: relative;
     horiz-align: right;
