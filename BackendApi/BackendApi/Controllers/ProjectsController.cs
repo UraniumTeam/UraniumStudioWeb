@@ -31,7 +31,7 @@ public class ProjectsController : ControllerBase
         return Ok(entity.Id);
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task<IActionResult> Update(ProjectMetadata metadata)
     {
         logger.LogInformation("Request received to update project {}", metadata.Id);
@@ -50,7 +50,7 @@ public class ProjectsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
+    [HttpDelete]
     public async Task<IActionResult> Delete(ProjectMetadata metadata)
     {
         logger.LogInformation("Request received to delete project {}", metadata.Id);

@@ -9,6 +9,11 @@ h1 {
     font-weight: bold;
 }
 
+h2 {
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
 aside {
     margin-top: 20px;
     padding: 10px;
@@ -70,7 +75,32 @@ button {
     background: rgba(142, 142, 142, 0.7);
     overflow: scroll;
     color: black;
-    padding: 5px;
+    padding: 10px;
     margin: 5px;
     border-radius: 5px;
+}
+
+.delete-button {
+    float: right;
+    background-image: url("../sources/delete-button.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+
+}
+
+.update-button {
+    background-image: url("../sources/update-button.png");
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 8px;
+    margin: 3px;
+}
+
+.link {
+    background-color: transparent !important;
+    color: black;
 }
