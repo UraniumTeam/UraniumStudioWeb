@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Stage, Layer, Rect, Text, Line} from 'react-konva';
 
 interface RectFunction {
+    id: number;
     name: string;
     startPos: number;
     posY: number;
@@ -19,7 +20,7 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
 
     const maxLength = Math.max(...rectangles.map(rect => rect.startPos + rect.length));
     const [scaleX, setScaleX] = useState(1);
-    const textLayerRef = useRef<any>(null);
+    const [selectedRectId, setSelectedRectId] = useState<number | null>(null);
 
     const handleDragMove = (e: any) => {
         let newX = e.target.x();
@@ -39,15 +40,8 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
         return () => window.removeEventListener('wheel', handleWheel);
     }, []);
 
-    useEffect(() => {
-        const textLayer = textLayerRef.current;
-        if (textLayer) {
-            textLayer.scaleX(1 / scaleX);
-        }
-    }, [scaleX]);
-
-    const handleFunctionClick = (e: any) => {
-        console.log(e.target.element);
+    const handleFunctionClick = (id: number) => {
+        setSelectedRectId(id);
     }
 
     return (
@@ -57,7 +51,7 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
             {/*<Line />*/}
             <Layer>
                 {rectangles.map((rectangle, index) => (
-                    <React.Fragment key={index}>
+                    <React.Fragment key={rectangle.id}>
                         <Rect
                             x={rectangle.startPos}
                             y={rectangle.posY}
@@ -65,26 +59,26 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
                             width={rectangle.length}
                             height={funcHeight}
                             fill={rectangle.color}
-                            onClick={handleFunctionClick}
+                            stroke={rectangle.id === selectedRectId ? 'black' : 'transparent'}
+                            onClick={() => handleFunctionClick(index)}
                         />
-                        <Text
-                            key={index}
-                            text={rectangle.name}
-                            x={rectangle.startPos}
-                            y={rectangle.posY}
-                            width={rectangle.length * scaleX}
-                            align="center"
-                            verticalAlign="middle"
-                            padding={5}
-                            fontSize={14}
-                            scaleX={1 / scaleX}
-                            wrap={"none"}
-                            ellipsis={true}
-                            overflow="ellipsis"
+                        <Text listening={false}
+                              key={index}
+                              text={rectangle.name}
+                              x={rectangle.startPos}
+                              y={rectangle.posY}
+                              width={rectangle.length * scaleX}
+                              align="center"
+                              verticalAlign="middle"
+                              padding={5}
+                              fontSize={14}
+                              scaleX={1 / scaleX}
+                              wrap={"none"}
+                              ellipsis={true}
+                              overflow="ellipsis"
                         />
                     </React.Fragment>))}
             </Layer>
-            <Layer ref={textLayerRef} listening={false}/>
         </Stage>
     );
 };
