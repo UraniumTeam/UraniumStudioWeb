@@ -52,7 +52,7 @@ const Project = () => {
                 <main className={"profiling-window"}>
                     <FunctionsPlace rectangles={rectFunctions}/>
                     {(showStats &&
-                        <Stats/>
+                        <Stats rectangles={rectFunctions}/>
                     )}
                     <button className={"stats-button"} onClick={statsButtonClick}>Stats</button>
                 </main>

@@ -21,6 +21,7 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
     const maxLength = Math.max(...rectangles.map(rect => rect.startPos + rect.length));
     const [scaleX, setScaleX] = useState(1);
     const [selectedRectId, setSelectedRectId] = useState<number | null>(null);
+    const [selectedRect, setSelectedRect] = useState<RectFunction | null>(null);
 
     const handleDragMove = (e: any) => {
         let newX = e.target.x();
@@ -42,6 +43,8 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
 
     const handleFunctionClick = (id: number) => {
         setSelectedRectId(id);
+        const rect = rectangles.find(rect => rect.id === id)
+        if (rect) setSelectedRect(rect);
     }
 
     return (
@@ -60,7 +63,7 @@ const FunctionsPlace: React.FC<Props> = ({rectangles}) => {
                             height={funcHeight}
                             fill={rectangle.color}
                             stroke={rectangle.id === selectedRectId ? 'black' : 'transparent'}
-                            onClick={() => handleFunctionClick(index)}
+                            onClick={() => handleFunctionClick(rectangle.id)}
                         />
                         <Text listening={false}
                               key={index}
