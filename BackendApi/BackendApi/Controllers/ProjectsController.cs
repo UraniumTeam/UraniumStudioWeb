@@ -7,7 +7,7 @@ namespace BackendApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class ProjectsController : ControllerBase
+public sealed class ProjectsController : ControllerBase
 {
     private readonly ILogger<ProjectsController> logger;
     private readonly AppDataContext dataContext;
@@ -74,6 +74,7 @@ public class ProjectsController : ControllerBase
     {
         var data = await dataContext.Projects
             .AsNoTracking()
+            .Include(x => x.Sessions)
             .OrderBy(x => x.Name)
             .ToListAsync();
 
