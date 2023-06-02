@@ -13,5 +13,5 @@ public sealed class ProjectMetadata
     [StringLength(64)]
     public required string Name { get; set; }
 
-    public ICollection<SessionMetadata> Sessions { get; set; } = null!;
+    public ICollection<SessionMetadata>? Sessions { get; set; } = null!;
 }
