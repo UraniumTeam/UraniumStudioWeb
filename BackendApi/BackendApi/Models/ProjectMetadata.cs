@@ -9,7 +9,9 @@ public sealed class ProjectMetadata
 {
     [Key]
     public required int Id { get; set; }
-    
+
     [StringLength(64)]
     public required string Name { get; set; }
+
+    public ICollection<SessionMetadata>? Sessions { get; set; } = null!;
 }

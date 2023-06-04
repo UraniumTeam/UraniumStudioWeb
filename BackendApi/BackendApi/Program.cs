@@ -1,3 +1,4 @@
+using Amazon.S3;
 using BackendApi.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,14 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<AppDataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+var s3Config = new AmazonS3Config
+{
+    ServiceURL = "https://s3.yandexcloud.net",
+    AuthenticationRegion = "ru-central1"
+};
+
+builder.Services.AddSingleton<AmazonS3Client>(_ => new AmazonS3Client(s3Config));
 
 var app = builder.Build();
 
