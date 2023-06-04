@@ -24,3 +24,11 @@
 **/sessions/
 LICENSE
 README.md
+
+# terraform
+**/.terraform/*
+**/.terragrunt-cache/*
+*.tfstate
+*.tfstate.*
+.terraform
+**/*.iml

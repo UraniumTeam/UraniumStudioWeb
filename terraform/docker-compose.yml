@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  backend:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      "ConnectionStrings:Default": "Host=${pg_host};Port=${port};Database=${pg_db};Username=${pg_username};Password=${pg_password}"
+    image: ${container_name}
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
